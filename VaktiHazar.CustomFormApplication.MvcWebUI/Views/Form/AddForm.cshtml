@@ -1,0 +1,155 @@
+﻿@model FormAddViewModel
+
+@{
+    ViewBag.Title = "Yeni Form";
+}
+
+<h2>Yeni Form</h2>
+
+@using (Html.BeginForm("AddForm", "Form", FormMethod.Post, new { id = "form" }))
+{
+    <input name="Form.FormId" value="@Model.Form.FormId" hidden />
+    <div class="row">
+        <div class="form-group">
+            <input class="form-control" name="Form.FormName" value="@Model.Form.FormName" placeholder="Formun adını giriniz.." />
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="Form.FormDescription" value="@Model.Form.FormDescription" placeholder="Formun Açıklamasını Giriniz.." />
+        </div>
+     
+        <div id="fields">
+       
+        </div>
+    </div>
+    <div class="form-group">
+        <input id="Add" class="btn btn-info" type="button" value="Yeni Alan" onclick="AddField()" />
+    </div>
+    <div class="form-group">
+        <input id="Add" class="btn btn-success" type="submit" value="Kaydet"  />
+    </div>
+
+    @Html.ActionLink("Listeye geri dön", "ListForm", "Form")
+}
+
+<script>
+
+    function AddField()
+    {
+        var fieldsCurrentHtml= $('#fields').html();
+        var addedHtml="";
+
+        addedHtml+='<div class="form-group">';
+        addedHtml+="<label>Veri Tipi</label>";
+        addedHtml+="<br/>";
+        addedHtml+='<select class="form-control" name="FieldTypes">';
+        addedHtml+="<option>Text</option>";
+        addedHtml+="<option>Numara</option>";
+        addedHtml+="</select>";
+        addedHtml+="</div>";
+
+        addedHtml+='<div class="form-group">';
+        addedHtml+='<input class="form-control" type="text" name="FieldNames" placeHolder="Alan adı" />';
+        addedHtml+="</div>";
+
+        addedHtml+='<div class="form-group">';
+        addedHtml+="<label>Gerekli mi ?</label>";
+        addedHtml+="<br/>";
+        addedHtml+='<select class="form-control" name="FieldRequiredStatuses">"';
+        addedHtml+="<option>True</option>";
+        addedHtml+="<option>False</option>";
+        addedHtml+="</select>";
+        addedHtml+="</div>";
+
+        $('#fields').html(fieldsCurrentHtml+addedHtml);
+    }
+
+    $(document).ready(function () {
+        var fieldCount=@ViewBag.FieldCount;
+        var fieldsCurrentHtml= $('#fields').html();
+        var formId=@ViewBag.FormId;
+        var addedHtml="";
+
+        if (fieldCount>0) {
+
+            $.ajax({
+                type:"GET",
+                url:'/Form/GetFormFields?formId='+formId,
+                success:function (result)
+                {
+                    for (var i = 0; i < result.size(); i++) {
+                        addedHtml+='<div class="form-group">';
+                        addedHtml+='<select class="form-control" name="FieldTypes">';
+
+
+                        if(result[i].FormElementDataType=="Text")
+                            addedHtml+="<option selected>Text</option>";
+                        else
+                            addedHtml+="<option selected>Text</option>";
+
+                        if (result[i].FormElementDataType=="Numara")
+                            addedHtml+="<option selected>Numara</option>";
+                        else
+                            addedHtml+="<option selected>Numara</option>";
+
+
+                        addedHtml+="</select>";
+                        addedHtml+="</div>";
+
+                        addedHtml+='<div class="form-group">';
+                        addedHtml+='<input class="form-control" type="text" name="FieldNames" placeHolder="Alan adı" value="'+result[i].FormElementName+'" />';
+                        addedHtml+="</div>";
+
+                        addedHtml+='<div class="form-group">';
+                        addedHtml+="<label>Gerekli mi ?</label>";
+                        addedHtml+="<br/>";
+                        addedHtml+='<select class="form-control" name="FieldRequiredStatuses">"';
+
+                        if(result[i].IsRequired8=="True")
+                            addedHtml+="<option selected>True</option>";
+                        else
+                            addedHtml+="<option>True</option>";
+
+                        if(result[i].IsRequired8=="False")
+                            addedHtml+="<option selected>False</option>";
+                        else
+                            addedHtml+="<option>False</option>";
+                       
+                        addedHtml+="</select>";
+                        addedHtml+="</div>";
+                    }
+                    $('#fields').html(addedHtml);
+                },
+                error:function()
+                {
+                    console.log("Veriler getirilirken hata oluştu");
+                }
+            });
+
+        }
+        else {
+            addedHtml+='<div class="form-group">';
+            addedHtml+="<label>Veri Tipi</label>";
+            addedHtml+="<br/>";
+            addedHtml+='<select class="form-control" name="FieldTypes">';
+            addedHtml+="<option>Text</option>";
+            addedHtml+="<option>Numara</option>";
+            addedHtml+="</select>";
+            addedHtml+="</div>";
+
+            addedHtml+='<div class="form-group">';
+            addedHtml+='<input class="form-control" type="text" name="FieldNames" placeHolder="Alan adı" />';
+            addedHtml+="</div>";
+
+            addedHtml+='<div class="form-group">';
+            addedHtml+="<label>Gerekli mi ?</label>";
+            addedHtml+="<br/>";
+            addedHtml+='<select class="form-control" name="FieldRequiredStatuses">"';
+            addedHtml+="<option>True</option>";
+            addedHtml+="<option>False</option>";
+            addedHtml+="</select>";
+            addedHtml+="</div>";
+
+            $('#fields').html(addedHtml);
+        }
+    });
+</script>

@@ -1,0 +1,53 @@
+﻿@model UserAddViewModel
+
+@{
+    ViewBag.Title = "Yeni Kullanıcı";
+}
+
+<h2>Yeni Kullanıcı</h2>
+
+@using (Html.BeginForm("AddUser", "User", FormMethod.Post, new { id = "form" }))
+{
+    <input name="User.UserId" value="@Model.User.UserId" hidden />
+    <div class="form-group">
+        <input class="form-control" name="User.Name" value="@Model.User.Name" placeholder="Adınızı giriniz.." />
+    </div>
+    <div class="form-group">
+        <input class="form-control" name="User.LastName" value="@Model.User.Lastname" placeholder="Soyadınızı giriniz.." />
+    </div>
+    <div class="form-group">
+        <input class="form-control" name="User.UserName" value="@Model.User.Username" placeholder="Kullanıcı Adınızı giriniz.." />
+    </div>
+    <div class="form-group">
+        <input class="form-control" name="User.Email" value="@Model.User.Email" placeholder="Epostanızı giriniz.." />
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="password1" value="@Model.User.Password" placeholder="Parolanızı giriniz.." />
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="password2" name="User.Password" value="@Model.User.Password" placeholder="Tekrar parolanızı giriniz.." />
+    </div>
+    <div class="form-group">
+        <input id="btnKaydet" class="btn btn-success" type="button" value="Kaydet" onclick="OnClick()" />
+    </div>
+
+    <div style="display:none" id="errorDiv">
+        <p class="alert alert-danger">Şifreler Uyuşmuyor</p>
+    </div>
+
+    @Html.ActionLink("Listeye geri dön", "ListUser", "User")
+}
+
+<script>
+    function OnClick() {
+        var password1 = $('#password1').val();
+        var password2 = $('#password2').val();
+
+        if (password1 == password2) {
+            $('#form').submit();
+        }
+        else {
+            $('#errorDiv').show();
+        }
+    }
+</script>

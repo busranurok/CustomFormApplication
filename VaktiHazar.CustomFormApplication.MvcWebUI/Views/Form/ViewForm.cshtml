@@ -1,0 +1,45 @@
+﻿@model ViewFormModel
+
+@{
+    ViewBag.Title = "ViewForm";
+}
+
+<h4>@Model.Form.FormName</h4>
+
+<h2>@Model.Form.FormDescription</h2>
+
+<form>
+
+
+    @foreach (var item in Model.FormElement)
+    {
+        <div class="form-group">
+            @if(item.FormElementDataType=="Text")
+            {
+                if (item.IsRequired8)
+                {
+                    <input type="text" class="form-control" required placeholder="@item.FormElementName" />
+                }
+                else
+                {
+                    <input type="text" class="form-control" placeholder="@item.FormElementName" />
+                }
+
+            }
+            else
+            {
+                if (item.IsRequired8)
+                {
+                    <input type="number" class="form-control" required placeholder="@item.FormElementName" />
+                }
+                else
+                {
+                    <input type="number" class="form-control" placeholder="@item.FormElementName" />
+                }
+            }
+        </div>
+    }
+    <div class="form-group">
+        <button class="btn btn-success">Kaydet</button>
+    </div>
+</form>

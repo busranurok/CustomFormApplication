@@ -1,0 +1,44 @@
+﻿@model User
+@{
+    ViewBag.Title = "Kullanıcı Detayı";
+}
+
+<h2>Kullanıcı Detayı</h2>
+
+<div class="form-group" hidden>
+    @Html.DisplayNameFor(x => x.UserId)
+    <br />
+    @Html.DisplayFor(x => x.UserId)
+</div>
+
+<div class="form-group">
+    @Html.DisplayNameFor(x => x.Name)
+    <br />
+    @Html.DisplayFor(x => x.Name)
+</div>
+
+<div class="form-group">
+    @Html.DisplayNameFor(x => x.Lastname)
+    <br />
+    @Html.DisplayFor(x => x.Lastname)
+</div>
+
+<div class="form-group">
+    @Html.DisplayNameFor(x => x.Username)
+    <br />
+    @Html.DisplayFor(x => x.Username)
+</div>
+
+<div class="form-group">
+    @Html.DisplayNameFor(x => x.Password)
+    <br />
+    @Html.DisplayFor(x => x.Password)
+</div>
+
+<div class="form-group">
+    @Html.DisplayNameFor(x => x.Email)
+    <br />
+    @Html.DisplayFor(x => x.Email)
+</div>
+
+@Html.ActionLink("Listeye geri dön", "ListUser", "User")

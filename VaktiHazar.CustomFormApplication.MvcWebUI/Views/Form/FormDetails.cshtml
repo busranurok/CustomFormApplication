@@ -1,0 +1,14 @@
+﻿@model Form
+@{
+    ViewBag.Title = "Form Detayı";
+}
+
+<h2>Form Detayı</h2>
+
+<div class="form-group" hidden>
+    @Html.DisplayNameFor(x => x.FormId)
+    <br />
+    @Html.DisplayFor(x => x.FormId)
+</div>
+
+@Html.ActionLink("Listeye geri dön", "ListForm", "Form")
